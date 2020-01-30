@@ -7,15 +7,15 @@
     android:background="@android:color/black">
 
     <EditText
-        android:id="@+id/addressWhoisText"
-        android:layout_width="150dp"
+        android:id="@+id/urlHttpText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:fontFamily="monospace"
         android:inputType="textPersonName"
-        android:text="@string/whois_placeholder"
+        android:text="@string/http_placeholder"
         android:textColor="@color/colorConsole"
         android:textColorHighlight="@color/colorConsole"
         android:textColorHint="@color/colorConsole"
@@ -24,11 +24,11 @@
         app:backgroundTint="@color/colorConsole"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/httpProtocolText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/runWhoisButton"
+        android:id="@+id/runHttpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -43,35 +43,51 @@
         android:textCursorDrawable="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/addressWhoisText"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/urlHttpText" />
 
     <TextView
-        android:id="@+id/whoisResultText"
+        android:id="@+id/httpResultText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#000000"
         android:fontFamily="monospace"
-        android:scrollbars="vertical"
+        android:gravity="center_horizontal"
         android:textColor="@color/colorConsole"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/borderWhoisTextView"
+        app:layout_constraintTop_toBottomOf="@+id/borderHttpTextView"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/borderWhoisTextView"
+        android:id="@+id/httpProtocolText"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="22dp"
+        android:fontFamily="monospace"
+        android:text="http://"
+        android:textColor="@color/colorConsole"
+        android:textColorHighlight="@color/colorConsole"
+        android:textColorHint="@color/colorConsole"
+        android:textColorLink="@color/colorConsole"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/borderHttpTextView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#000000"
         android:ellipsize="none"
         android:fontFamily="monospace"
         android:singleLine="true"
-        android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+        android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
         android:textColor="@color/colorConsole"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/runWhoisButton" />
+        app:layout_constraintTop_toBottomOf="@+id/runHttpButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

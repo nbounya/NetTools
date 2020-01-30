@@ -3,28 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/pingResultText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/runPingButton"
-        app:layout_constraintVertical_bias="0.0" />
+    android:layout_height="match_parent"
+    android:background="#000000">
 
     <EditText
         android:id="@+id/addressPingText"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:fontFamily="monospace"
         android:inputType="textPersonName"
-        android:text="8.8.8.8"
+        android:text="@string/ping_placeholder"
+        android:textColor="@color/colorConsole"
+        android:textColorHighlight="@color/colorConsole"
+        android:textColorHint="@color/colorConsole"
+        android:textColorLink="@color/colorConsole"
+        android:textCursorDrawable="@null"
+        app:backgroundTint="@color/colorConsole"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,11 +34,19 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:fontFamily="monospace"
         android:inputType="numberSigned"
-        android:text="30"
+        android:text="@string/ping_ttl"
+        android:textColor="@color/colorConsole"
+        android:textColorHighlight="@color/colorConsole"
+        android:textColorHint="@color/colorConsole"
+        android:textColorLink="@color/colorConsole"
+        android:textCursorDrawable="@null"
+        app:backgroundTint="@color/colorConsole"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ttlPingText"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/addressPingText" />
 
     <EditText
         android:id="@+id/packetsPingNumber"
@@ -50,41 +55,101 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:fontFamily="monospace"
         android:inputType="numberSigned"
-        android:text="10"
+        android:text="@string/ping_packets"
+        android:textColor="@color/colorConsole"
+        android:textColorHighlight="@color/colorConsole"
+        android:textColorHint="@color/colorConsole"
+        android:textColorLink="@color/colorConsole"
+        android:textCursorDrawable="@null"
+        app:backgroundTint="@color/colorConsole"
         app:layout_constraintStart_toEndOf="@+id/packetsPingText"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/addressPingText" />
 
     <Button
         android:id="@+id/runPingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        android:text="RUN"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_border"
+        android:fontFamily="monospace"
+        android:text="EXECUTE"
+        android:textColor="@color/colorConsole"
+        android:textColorHighlight="@color/colorConsole"
+        android:textColorHint="@color/colorConsole"
+        android:textColorLink="@color/colorConsole"
+        android:textCursorDrawable="@null"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.965"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addressPingText" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/addressPingText"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/packetsPingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="monospace"
         android:text="Packets :"
-        app:layout_constraintStart_toEndOf="@+id/addressPingText"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@color/colorConsole"
+        android:textColorHighlight="@color/colorConsole"
+        android:textColorHint="@color/colorConsole"
+        android:textColorLink="@color/colorConsole"
+        android:textCursorDrawable="@null"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addressPingText" />
 
     <TextView
         android:id="@+id/ttlPingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="monospace"
         android:text="TTL :"
+        android:textColor="@color/colorConsole"
+        android:textColorHighlight="@color/colorConsole"
+        android:textColorHint="@color/colorConsole"
+        android:textColorLink="@color/colorConsole"
+        android:textCursorDrawable="@null"
         app:layout_constraintStart_toEndOf="@+id/packetsPingNumber"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/addressPingText" />
+
+    <TextView
+        android:id="@+id/borderPingTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:ellipsize="none"
+        android:fontFamily="monospace"
+        android:singleLine="true"
+        android:text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+        android:textColor="@color/colorConsole"
+        android:textColorHighlight="@color/colorConsole"
+        android:textColorHint="@color/colorConsole"
+        android:textColorLink="@color/colorConsole"
+        android:textCursorDrawable="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/packetsPingNumber" />
+
+    <TextView
+        android:id="@+id/pingResultText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#000000"
+        android:fontFamily="monospace"
+        android:textColor="@color/colorConsole"
+        android:textColorHighlight="@color/colorConsole"
+        android:textColorHint="@color/colorConsole"
+        android:textColorLink="@color/colorConsole"
+        android:textCursorDrawable="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/borderPingTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

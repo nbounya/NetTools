@@ -2,23 +2,24 @@
     <string name="app_name">NetTools</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">NetTools</string>
-    <string name="nav_header_subtitle">-</string>
+    <string name="nav_header_title">$ NetTools</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Ping</string>
-    <string name="menu_gallery">Traceroute</string>
-    <string name="menu_slideshow">Whois</string>
-    <string name="menu_tools">-</string>
-    <string name="menu_share">-</string>
-    <string name="menu_send">-</string>
+    <string name="menu_ping">$ ping</string>
+    <string name="menu_traceroute">$ traceroute</string>
+    <string name="menu_whois">$ whois</string>
+    <string name="menu_ifconfig">$ ifconfig</string>
+    <string name="menu_http">$ HTTP Status</string>
 
-    <string name="no_connectivity">No connectivity</string>
-    <string name="no_text">Please enter an ip or URL</string>
-    <string name="no_ping">Are you sure about the URL?</string>
-    <string name="string_test">test</string>
-    <string name="error">An error occurred, please try again</string>
-    <string name="timeout">Timeout</string>
-    <string name="placeholder">www.google.fr</string>
+    <string name="ping_placeholder">8.8.8.8</string>
+    <string name="ping_packets">10</string>
+    <string name="ping_ttl">255</string>
+
+    <string name="traceroute_placeholder">google.com</string>
+    <string name="traceroute_first">1</string>
+    <string name="traceroute_last">30</string>
+
+    <string name="whois_placeholder">google.com</string>
+    <string name="http_placeholder">google.com</string>
 </resources>

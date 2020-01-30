@@ -1,4 +1,4 @@
-package com.example.nettools.ui.ping;
+package com.example.nettools.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,37 +8,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.nettools.R;
 import com.example.nettools.tools.Tools;
 
 public class PingFragment extends Fragment {
-
-    private PingViewModel pingViewModel;
     private View rootView;
     private String address;
     private int packets;
     private int ttl;
-
+    private boolean isRunning = false;
+    Tools.pingTask ping = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        pingViewModel =
-                ViewModelProviders.of(this).get(PingViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_ping, container, false);
-        pingViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-            }
-        });
-
-        rootView = root;
-        Button runPingButton = (Button) root.findViewById(R.id.runPingButton);
+        rootView = inflater.inflate(R.layout.fragment_ping, container, false);
+        Button runPingButton = (Button) rootView.findViewById(R.id.runPingButton);
         runPingButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -48,7 +35,7 @@ public class PingFragment extends Fragment {
             }
         });
 
-        return root;
+        return rootView;
     }
 
 
@@ -63,8 +50,13 @@ public class PingFragment extends Fragment {
         TextView pingResultText = (TextView) rootView.findViewById(pingResultTextId);
         address = addressText.getText().toString();
         packets = Integer.parseInt(packetsText.getText().toString());
-        ttl = Integer.parseInt(ttlText.getText().toString());;
-
-        new Tools.pingTask(address, packets, ttl, 1, pingResultText).execute();
+        ttl = Integer.parseInt(ttlText.getText().toString());
+        if(isRunning) {
+            ping.cancel(true);
+            isRunning = false;
+        }
+        ping = new Tools.pingTask(address, packets, ttl, 1, false, pingResultText);
+        ping.execute();
+        isRunning = true;
     }
 }
