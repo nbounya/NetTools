@@ -1,4 +1,4 @@
-# NetTools (Incomplete!)
+# NetTools
 Android app that provides networking tools like ping, traceroute, etc...
 
 ## Tools:
@@ -6,7 +6,13 @@ Android app that provides networking tools like ping, traceroute, etc...
 Options available: number of packets, and TTL (Time to Live)
 
 ### Traceroute:
-Works with IP addresses only, Options available: first TTL, Max TTL.
+Options available: first TTL, Max TTL.
 
 ### Whois:
-Might not provide useful information for some TLDs.
+provides whois Information from TLD whois servers.
+
+### Ifconfig:
+provides information on network interfaces, if ifconfig is not available It uses netcfg instead.
+
+### Http status:
+displays Http status code received from host.
