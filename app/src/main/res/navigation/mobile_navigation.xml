@@ -7,31 +7,31 @@
 
     <fragment
         android:id="@+id/nav_ping"
-        android:name="com.example.nettools.ui.PingFragment"
+        android:name="com.nassim.nettools.ui.PingFragment"
         android:label="@string/menu_ping"
         tools:layout="@layout/fragment_traceroute" />
 
     <fragment
         android:id="@+id/nav_traceroute"
-        android:name="com.example.nettools.ui.TracerouteFragment"
+        android:name="com.nassim.nettools.ui.TracerouteFragment"
         android:label="@string/menu_traceroute"
         tools:layout="@layout/fragment_ping" />
 
     <fragment
         android:id="@+id/nav_whois"
-        android:name="com.example.nettools.ui.WhoisFragment"
+        android:name="com.nassim.nettools.ui.WhoisFragment"
         android:label="@string/menu_whois"
         tools:layout="@layout/fragment_whois" />
 
     <fragment
         android:id="@+id/nav_http"
-        android:name="com.example.nettools.ui.HttpFragment"
+        android:name="com.nassim.nettools.ui.HttpFragment"
         android:label="@string/menu_http"
         tools:layout="@layout/fragment_http" />
 
     <fragment
         android:id="@+id/nav_ifconfig"
-        android:name="com.example.nettools.ui.IfconfigFragment"
+        android:name="com.nassim.nettools.ui.IfconfigFragment"
         android:label="@string/menu_ifconfig"
         tools:layout="@layout/fragment_ifconfig" />
 </navigation>

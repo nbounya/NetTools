@@ -13,7 +13,7 @@
     <string name="menu_http">$ HTTP Status</string>
 
     <string name="ping_placeholder">8.8.8.8</string>
-    <string name="ping_packets">10</string>
+    <string name="ping_packets">5</string>
     <string name="ping_ttl">255</string>
 
     <string name="traceroute_placeholder">google.com</string>

@@ -1,4 +1,4 @@
-package com.example.nettools;
+package com.nassim.nettools;
 
 import android.content.Context;
 

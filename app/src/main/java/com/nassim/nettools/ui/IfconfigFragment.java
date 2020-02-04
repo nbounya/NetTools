@@ -1,4 +1,4 @@
-package com.example.nettools.ui;
+package com.nassim.nettools.ui;
 
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.nettools.R;
-import com.example.nettools.tools.Tools;
+import com.nassim.nettools.R;
+import com.nassim.nettools.tools.Tools;
 
 public class IfconfigFragment extends Fragment {
 

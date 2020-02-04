@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
     defaultConfig {
-        applicationId "com.example.nettools"
+        applicationId "com.nassim.nettools"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1

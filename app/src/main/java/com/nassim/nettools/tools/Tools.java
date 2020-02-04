@@ -1,8 +1,11 @@
-package com.example.nettools.tools;
+package com.nassim.nettools.tools;
 
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 import android.widget.TextView;
+
+import com.nassim.nettools.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -11,7 +14,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -19,8 +21,10 @@ import java.net.UnknownHostException;
 public class Tools {
 
     public static String ping(String address, int packets, int ttl, double waitTime, TextView view) throws Exception{
-        String format = "ping -n -c %d -t %d -i %f %s";
-        String command = String.format(format, packets, ttl, waitTime, address);
+//        String format = "ping -n -c %d -t %d -i %f %s";
+//        String command = String.format(format, packets, ttl, waitTime, address);
+        String format = "ping -n -c %d -t %d %s";
+        String command = String.format(format, packets, ttl, address);
         Process process = Runtime.getRuntime().exec(command);
 
         BufferedReader bufferedReader = new BufferedReader(
@@ -137,8 +141,8 @@ public class Tools {
 
         @Override
         protected Void doInBackground(Void... params){
-            String format = "ping -c %d -t %d -i %f %s";
-            String command = String.format(format, packets, ttl, waitTime, address);
+            String format = "/system/bin/ping -c %d -t %d %s";
+            String command = String.format(format, packets, ttl, address);
             try {
                 Process process = Runtime.getRuntime().exec(command);
 
@@ -156,7 +160,7 @@ public class Tools {
                     }
                 }
             } catch(Exception e){
-                error = e.getMessage();
+                error = "ERROR";
                 cancel(true);
             }
         return null;
@@ -273,7 +277,7 @@ public class Tools {
                         hopProbeTimes[i][0] = "*";
                         hopProbeTimes[i][1] = "*";
                         hopProbeTimes[i][2] = "*";
-                        line = "       " + hopProbeTimes[i][0] + "       " + hopProbeTimes[i][1] + "       "+ hopProbeTimes[i][2] + "       ";
+                        line = "      " + hopProbeTimes[i][0] + "      " + hopProbeTimes[i][1] + "      "+ hopProbeTimes[i][2] + "      ";
                         log.append(line);
                     }
                     }catch(Exception e){
@@ -413,7 +417,11 @@ public class Tools {
                 code = connection.getResponseCode();
                 httpMessage = connection.getResponseMessage();
             } catch (Exception e) {
-                error = "ERROR";
+                if(e != null) {
+                    error = e.getMessage();
+                } else {
+                    error = "ERROR";
+                }
                 cancel(true);
             }
             return null;
