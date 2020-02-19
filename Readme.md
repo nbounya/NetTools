@@ -1,5 +1,5 @@
 # NetTools
-Android app that provides networking tools like ping, traceroute, etc...
+Android app that provides networking tools like ping, traceroute, etc... Available on [Google Play](https://play.google.com/store/apps/details?id=com.nassim.nettools).
 
 ## Tools:
 ### Ping:
