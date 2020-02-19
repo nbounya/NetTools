@@ -20,7 +20,7 @@ public class WhoisFragment extends Fragment {
     private String address;
     private View rootView;
     boolean isRunning = false;
-    Tools.whoisTask whois = null;
+    Tools.WhoisTask whois = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class WhoisFragment extends Fragment {
             whois.cancel(true);
             isRunning = false;
         }
-        whois = new Tools.whoisTask(address, whoisResultText);
+        whois = new Tools.WhoisTask(address, whoisResultText);
         whois.execute();
         isRunning = true;
     }

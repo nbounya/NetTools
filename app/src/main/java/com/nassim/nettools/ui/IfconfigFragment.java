@@ -40,6 +40,6 @@ public class IfconfigFragment extends Fragment {
     public void runIfconfigOnClick(){
         int ifconfigResultTextId = getResources().getIdentifier("ifconfigResultText", "id", getActivity().getPackageName());
         TextView ifconfigResultText = (TextView) rootView.findViewById(ifconfigResultTextId);
-        new Tools.ifconfigTask(ifconfigResultText).execute();
+        new Tools.IfconfigTask(ifconfigResultText).execute();
     }
 }

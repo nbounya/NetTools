@@ -23,7 +23,7 @@ public class TracerouteFragment extends Fragment {
     private boolean resolve = true;
     private int probes = 3;
     boolean isRunning = false;
-    Tools.traceRouteTask traceroute = null;
+    Tools.TraceRouteTask traceroute = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class TracerouteFragment extends Fragment {
                 }
             }
         }
-        traceroute = new Tools.traceRouteTask(address, max_ttl, first_ttl, resolve, probes, tracerouteResultText);
+        traceroute = new Tools.TraceRouteTask(address, max_ttl, first_ttl, resolve, probes, tracerouteResultText);
         traceroute.execute();
         isRunning = true;
     }

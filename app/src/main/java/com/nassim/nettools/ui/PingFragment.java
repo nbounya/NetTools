@@ -18,9 +18,9 @@ public class PingFragment extends Fragment {
     private View rootView;
     private String address;
     private int packets;
-    private int ttl;
+    private int max_ttl;
     private boolean isRunning = false;
-    Tools.pingTask ping = null;
+    Tools.PingTask ping = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,12 +50,12 @@ public class PingFragment extends Fragment {
         TextView pingResultText = (TextView) rootView.findViewById(pingResultTextId);
         address = addressText.getText().toString();
         packets = Integer.parseInt(packetsText.getText().toString());
-        ttl = Integer.parseInt(ttlText.getText().toString());
+        max_ttl = Integer.parseInt(ttlText.getText().toString());
         if(isRunning) {
             ping.cancel(true);
             isRunning = false;
         }
-        ping = new Tools.pingTask(address, packets, ttl, 1, false, pingResultText);
+        ping = new Tools.PingTask(address, packets, max_ttl, pingResultText);
         ping.execute();
         isRunning = true;
     }

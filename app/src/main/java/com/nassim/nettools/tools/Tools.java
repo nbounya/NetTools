@@ -2,10 +2,7 @@ package com.nassim.nettools.tools;
 
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Log;
 import android.widget.TextView;
-
-import com.nassim.nettools.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -19,10 +16,8 @@ import java.net.URL;
 import java.net.UnknownHostException;
 
 public class Tools {
-
-    public static String ping(String address, int packets, int ttl, double waitTime, TextView view) throws Exception{
-//        String format = "ping -n -c %d -t %d -i %f %s";
-//        String command = String.format(format, packets, ttl, waitTime, address);
+    public static String ping(String address, int packets, int ttl, TextView view) throws Exception{
+        //execute ping command
         String format = "ping -n -c %d -t %d %s";
         String command = String.format(format, packets, ttl, address);
         Process process = Runtime.getRuntime().exec(command);
@@ -43,65 +38,24 @@ public class Tools {
         return log.toString();
     }
 
-    public static void traceroute(String address, int max_ttl, int first_ttl, boolean resolve, int probes, TextView view) throws Exception{
-        String[][] hopProbeTimes = new String[max_ttl][probes];
-        String[] hopAddress = new String[max_ttl];
-        StringBuilder log = new StringBuilder();
-
-        String format = "traceroute to %s (%s), %d hops max, 60 byte packets\n";
-        String line = String.format(format, address, address, max_ttl);
-        log.append(line);
-
-        for(int i = first_ttl - 1; i < max_ttl; i++) {
-            int remaining_ping = 3;
-            String hopPingOutput = ping(address, 1, i + 1, 0.201, null);
-            hopAddress[i] = parseHopIp(hopPingOutput);
-            format = " %d  %s (%<s)";
-            line = String.format(format, i + 1, hopAddress[i]);
-            log.append(line);
-
-            while (remaining_ping != 0) {
-                String probePingOutput = ping(hopAddress[i], 1, 30, 0.201, null);
-                hopProbeTimes[i][remaining_ping - 1] = parseHopPingTimes(probePingOutput);
-                if (hopProbeTimes[i][remaining_ping - 1].equals("*")) {
-                    line = "       " + hopProbeTimes[i][remaining_ping-1] + "       ";
-                    } else {
-                    line = "  " + hopProbeTimes[i][remaining_ping-1] + " ms";
-                    }
-                log.append(line);
-                remaining_ping--;
-            }
-
-            format = "\n";
-            line = String.format(format);
-            log.append(line);
-
-            if(hopAddress[i].equals(address)){
-                view.setText(log.toString());
-                break;
-            }
-        }
-        view.setText(log.toString());
-    }
-
-    static String parseHopIp(String hopPingOutput){
+    static String parseHopIp(String pingOutput){
         String hopIp;
-        hopPingOutput = hopPingOutput.replaceAll("[\\t\\n\\r]+"," ");
-        String[] hopPingOutputArray = hopPingOutput.split(" ");
-        hopIp = hopPingOutputArray[8].substring(0, hopPingOutputArray[8].length() - 1);
+        pingOutput = pingOutput.replaceAll("[\\t\\n\\r]+"," ");
+        String[] pingOutputArray = pingOutput.split(" ");
+        hopIp = pingOutputArray[8].substring(0, pingOutputArray[8].length() - 1);
         if (hopIp.equals("byte")) {
-            hopIp = hopPingOutputArray[10].substring(0, hopPingOutputArray[10].length() - 1);
+            hopIp = pingOutputArray[10].substring(0, pingOutputArray[10].length() - 1);
         }
-        if (hopPingOutputArray[7].equals("---")) {
+        if (pingOutputArray[7].equals("---")) {
             hopIp = "";
         }
         return hopIp;
     }
 
-    static String parseHopPingTimes(String probePingOutput){
+    static String parseHopPingTimes(String pingOutput){
         String hopPingTime;
-        probePingOutput = probePingOutput.replaceAll("[\\t\\n\\r]+"," ");
-        String[] probePingOutputArray = probePingOutput.split(" ");
+        pingOutput = pingOutput.replaceAll("[\\t\\n\\r]+"," ");
+        String[] probePingOutputArray = pingOutput.split(" ");
         if (probePingOutputArray[13].equals("packets") || probePingOutputArray[13].equals("exceeded")) {
             hopPingTime = "*";
             } else {
@@ -110,39 +64,39 @@ public class Tools {
         return hopPingTime;
     }
 
-    static String parseWhoisRefer(String whoisOutput){
-        String refer;
+    //parses IANA whois server reply for TLD whois server referral
+    static String parseWhoisReferral(String whoisOutput){
+        String referral;
         whoisOutput = whoisOutput.replaceAll("[\\t\\n\\r]+"," ");
         String[] whoisOutputArray = whoisOutput.split(" ");
         if (whoisOutputArray[18].equals("refer:")) {
-            refer = whoisOutputArray[26];
+            referral = whoisOutputArray[26];
         } else {
-            refer = "";
+            referral = "";
         }
-        return refer;
+        return referral;
     }
 
-    public static class pingTask extends AsyncTask<Void, String, Void>{
+    public static class PingTask extends AsyncTask<Void, String, Void>{
         String address;
         int packets;
-        int ttl;
-        double waitTime;
+        int max_ttl;
         TextView view;
         String error;
 
-        public pingTask(String address, int packets, int ttl, double waitTime, boolean isNumericOnly, TextView view){
+        public PingTask(String address, int packets, int max_ttl, TextView view){
             this.address = address;
             this.packets = packets;
-            this.ttl = ttl;
-            this.waitTime = waitTime;
+            this.max_ttl = max_ttl;
             this.view = view;
-            view.setText("$ ping -c " + packets + " -t " + ttl + " -i " + waitTime + " " + address);
+            view.setText("$ ping -c " + packets + " -t " + max_ttl + " " + address);
         }
 
         @Override
         protected Void doInBackground(Void... params){
-            String format = "/system/bin/ping -c %d -t %d %s";
-            String command = String.format(format, packets, ttl, address);
+            //execute ping command
+            String format = "ping -c %d -t %d %s";
+            String command = String.format(format, packets, max_ttl, address);
             try {
                 Process process = Runtime.getRuntime().exec(command);
 
@@ -151,8 +105,9 @@ public class Tools {
                 // Grab the results
                 StringBuilder log = new StringBuilder();
                 String line;
-                log.append("$ ping -c " + packets + " -t " + ttl + " -i " + waitTime + " " + address + "\n");
+                log.append("$ ping -c " + packets + " -t " + max_ttl +  " " + address + "\n");
                 while ((line = bufferedReader.readLine()) != null) {
+                    //displays the results
                     if(this.isCancelled()) break;
                     log.append(line + "\n");
                     if (view != null) {
@@ -178,7 +133,7 @@ public class Tools {
         }
     }
 
-    public static class traceRouteTask extends AsyncTask<Void, String, Void>{
+    public static class TraceRouteTask extends AsyncTask<Void, String, Void>{
         String address;
         int max_ttl;
         int first_ttl;
@@ -187,7 +142,7 @@ public class Tools {
         TextView view;
         String error;
 
-        public traceRouteTask(String address, int max_ttl, int first_ttl, boolean resolve, int probes, TextView view){
+        public TraceRouteTask(String address, int max_ttl, int first_ttl, boolean resolve, int probes, TextView view){
             this.address = address;
             this.max_ttl = max_ttl;
             this.first_ttl = first_ttl;
@@ -200,10 +155,12 @@ public class Tools {
         @Override
         protected Void doInBackground(Void... params){
             StringBuilder log = new StringBuilder();
+
             try {
                 String format = "traceroute to %s (%s), %d hops max, 60 byte packets\n";
                 String line;
 
+                //resolves target hostname if necessary
                 if (resolve) {
                     String tracerouteToHostname;
                     String tracerouteToIP;
@@ -234,7 +191,7 @@ public class Tools {
                     if(this.isCancelled()) break;
                     String format, line;
                     int remaining_ping = probes;
-                    String hopPingOutput = ping(InetAddress.getByName(address).getHostAddress(), 1, i + 1, 0.201, null);
+                    String hopPingOutput = ping(InetAddress.getByName(address).getHostAddress(), 1, i + 1,  null);
                     hopAddress[i] = parseHopIp(hopPingOutput);
 
                     if(hopAddress[i].equals("")){
@@ -243,6 +200,7 @@ public class Tools {
                         format = " %d  %s (%s)";
                     }
 
+                    //resolves hop hostname
                     if(hopAddress[i].equals("")) {
                         line = String.format(format, i + 1);
                     } else {
@@ -261,9 +219,10 @@ public class Tools {
                     log.append(line);
 
                     try{
+                    //probes each hop a certain number of times
                     if(!hopAddress[i].equals("")) {
                         while (remaining_ping != 0) {
-                            String probePingOutput = ping(hopAddress[i], 1, 30, 0.201, null);
+                            String probePingOutput = ping(hopAddress[i], 1, 30,  null);
                             hopProbeTimes[i][remaining_ping - 1] = parseHopPingTimes(probePingOutput);
                             if (hopProbeTimes[i][remaining_ping - 1].equals("*")) {
                                 line = "       " + hopProbeTimes[i][remaining_ping - 1] + "       ";
@@ -274,6 +233,7 @@ public class Tools {
                             remaining_ping--;
                         }
                     } else {
+                        //if probe failed display * in output
                         hopProbeTimes[i][0] = "*";
                         hopProbeTimes[i][1] = "*";
                         hopProbeTimes[i][2] = "*";
@@ -289,6 +249,8 @@ public class Tools {
                     log.append(line);
                     publishProgress(log.toString());
                     String lastAddressCheck = InetAddress.getByName(address).getHostAddress();
+
+                    //checks if target address is reached
                     if (hopAddress[i].equals(lastAddressCheck)) {
                         error = "";
                         return null;
@@ -322,7 +284,7 @@ public class Tools {
         }
     }
 
-    public static class whoisTask extends AsyncTask<Void, String, Void> {
+    public static class WhoisTask extends AsyncTask<Void, String, Void> {
         String address;
         TextView view;
         String whoisServerName = "whois.iana.org";
@@ -331,7 +293,7 @@ public class Tools {
         String referWhoisResult = "";
         String error = "";
 
-        public whoisTask(String address, TextView view) {
+        public WhoisTask(String address, TextView view) {
             this.address = address;
             this.view = view;
             view.setText("");
@@ -340,11 +302,13 @@ public class Tools {
         @Override
         protected Void doInBackground(Void... params) {
             try {
+                //sends request to IANA whois API
                 Socket theSocket = new Socket(whoisServerName, whoisPort, true);
                 Writer out = new OutputStreamWriter(theSocket.getOutputStream());
                 out.write("" + address + "\r\n");
                 out.flush();
                 DataInputStream WhoisStream;
+                //get IANA whois server reply
                 WhoisStream = new DataInputStream(theSocket.getInputStream());
                 String s;
                 while ((s = WhoisStream.readLine()) != null) {
@@ -352,14 +316,17 @@ public class Tools {
                     ianaWhoisResult = ianaWhoisResult + s + "\n";
                 }
 
-                String referWhoisServerName = parseWhoisRefer(ianaWhoisResult);
+                //checks if there is a referral for a specific TLD whois server
+                String referWhoisServerName = parseWhoisReferral(ianaWhoisResult);
                 if (referWhoisServerName.equals("")) {
                     publishProgress(ianaWhoisResult);
                 } else {
+                    //if there is a referral, send request to server
                     theSocket = new Socket(referWhoisServerName, whoisPort, true);
                     out = new OutputStreamWriter(theSocket.getOutputStream());
                     out.write("" + address + "\r\n");
                     out.flush();
+                    //get TLD whois server reply
                     WhoisStream = new DataInputStream(theSocket.getInputStream());
                     while ((s = WhoisStream.readLine()) != null) {
                         referWhoisResult = referWhoisResult + s + "\n";
@@ -409,12 +376,14 @@ public class Tools {
         @Override
         protected Void doInBackground(Void... params) {
             try{
+                //send request to target HTTP server
                 URL url = new URL("http://" + urlText);
                 HttpURLConnection connection = (HttpURLConnection)url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.connect();
 
                 code = connection.getResponseCode();
+                //get response message from HTTP server
                 httpMessage = connection.getResponseMessage();
             } catch (Exception e) {
                 if(e != null) {
@@ -441,11 +410,11 @@ public class Tools {
         }
     }
 
-    public static class ifconfigTask extends AsyncTask<Void, String, Void> {
+    public static class IfconfigTask extends AsyncTask<Void, String, Void> {
         TextView view;
         String error = "";
 
-        public ifconfigTask(TextView view) {
+        public IfconfigTask(TextView view) {
             this.view = view;
             view.setText("");
         }
@@ -454,6 +423,7 @@ public class Tools {
         protected Void doInBackground(Void... params) {
             String command;
             String message = "";
+
             if(Build.VERSION.SDK_INT > 23) {
                 message = "$ ifconfig\n";
                 command = "ifconfig";
@@ -461,6 +431,8 @@ public class Tools {
                 message = "\"ifconfig\" not available, using \"netcfg\" instead.\n\n$ netcfg\n";
                 command = "netcfg";
             }
+
+            //executes ifconfig or netcfg command
             try {
                 Process process = Runtime.getRuntime().exec(command);
 
@@ -471,6 +443,7 @@ public class Tools {
                 String line;
                 log.append(message);
                 while ((line = bufferedReader.readLine()) != null) {
+                    //display the results
                     if(this.isCancelled()) break;
                     log.append(line + "\n");
                     if (view != null) {
